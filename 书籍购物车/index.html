@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css">
+    <!-- <link> 标签定义文档与外部资源的关系。 -->
+    <!-- <link> 标签最常见的用途是链接样式表。 -->
+</head>
+
+<body>
+    <div id="app">
+        <div v-if="books.length">
+            <!-- 设置 length 属性可改变数组的大小。如果设置的值比其当前值小，数组将被截断，其尾部的元素将丢失 -->
+            <!-- 将表单写进div中，使用v-if判断表单的长度，当长度为0时那么就显示别的内容 -->
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>书籍名称</th>
+                        <th>出版日期</th>
+                        <th>价格</th>
+                        <th>购买数量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <!-- thead标签定义表格的表头。该标签用于组合 HTML 表格的表头内容。 -->
+                <!-- thead 元素应该与 tbody 和 tfoot 元素结合起来使用。 -->
+                <tbody>
+                    <tr v-for="(item,index) in books">
+                        <!-- 因为后续需要监控具体是修改哪一个count，所以需要添加一个index -->
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.date}}</td>
+
+                        <!-- 过滤器需要写在 filters中！！！！！ -->
+                        <td>{{item.price | showPrice}}</td>
+                        <!-- <td>{{item.price | 过滤器 }}</td> -->
+                        <!-- 这里使用了过滤器 -->
+                        <!--过滤器一般情况下是一个函数
+                        而且函数的话一般会把我们要过滤的那个东西，
+                        作为参数传到（）括号里 -->
+                        <td>
+                            <button @click="decrement(index)" v-bind:disabled="item.count <= 1">-</button>
+                            <!-- disabled 属性规定禁用按钮。被禁用的按钮既不可用，也不可点击。 -->
+                            <!-- 利用v-bind动态绑定disable 在后面加上条件，防止购物车出现负数的情况发生 -->
+                            {{item.count}}
+                            <button @click="increment(index)">+</button>
+                        </td>
+                        <td>
+                            <button @click="remove">移除</button>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+            <h3>总价格:{{totalPrice | showPrice}}</h3>
+        </div>
+        <h1 v-else>当前购物车为空，请添加书籍</h1>
+        <!-- tr td 一定要跟着table使用，因为不在table里的td 和tr 不含语义，不给予使用 -->
+    </div>
+
+    <script src="vue.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
